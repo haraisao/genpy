@@ -402,7 +402,10 @@ def get_printable_message_args(msg, buff=None, prefix=''):
         if isinstance(getattr(msg, f), Message):
             get_printable_message_args(getattr(msg, f), buff=buff, prefix=(prefix+f+'.'))
         else:
-            buff.write(prefix+f+' ')
+            if python3 == 1:
+                buff.write(bytes(prefix+f+' ', 'utf-8'))
+            else:
+                buff.write(prefix+f+' ')
     return buff.getvalue().rstrip()
 
 def _fill_val(msg, f, v, keys, prefix):
